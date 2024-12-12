@@ -1,15 +1,7 @@
 <?php
 session_start();
-
 require 'conexao.php';
 
-
-try {
-    $sql = $pdo->query("SELECT p.id, p.data_vencimento, p.valor, p.status_pagamento, p.criado_em, a.nome_completo AS aluno_nome FROM Pagamentos p JOIN Alunos a ON p.aluno_id = a.id ORDER BY p.data_vencimento DESC");
-    $pagamentos = $sql->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    die("Erro ao buscar dados: " . $e->getMessage());
-}
 ?>
 
 <!DOCTYPE html>
@@ -40,15 +32,33 @@ try {
         main {
             flex: 1;
             padding: 20px;
-            text-align: center;
             display: flex;
-            gap: 20px;
-            justify-content: center;
-            padding: 20px;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
         }
 
         .sair {
             margin: 10px;
+        }
+
+        .alert {
+            width: 100%;
+            max-width: 600px;
+            margin-bottom: 20px;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .form-label {
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group-text {
+            min-width: 40px;
         }
 
         footer {
@@ -58,26 +68,15 @@ try {
             padding: 10px;
         }
 
-        .status-pago {
-            color: green;
-            font-weight: bold;
-        }
-
-        .status-pendente {
-            color: orange;
-            font-weight: bold;
-        }
-
-        .status-atrasado {
-            color: red;
-            font-weight: bold;
+        .alert {
+            margin: 20px 0;
         }
     </style>
 </head>
 
 <body>
     <header>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary " style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25)">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary " style="box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25)">
             <div class="container-fluid">
                 <a class="navbar-brand" href="home_admin.php"><img id="imagens" src="imagens/logo.png" width="60"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -117,48 +116,11 @@ try {
         </nav>
     </header>
     <main>
-        <div class="container">
-            <h1 class="my-4">Gerenciamento de Pagamentos</h1>
 
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead class="table-primary">
-                        <tr>
-                            <th>ID</th>
-                            <th>Aluno</th>
-                            <th>Data de Vencimento</th>
-                            <th>Valor (R$)</th>
-                            <th>Status</th>
-                            <th>Data de Criação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php if (!empty($pagamentos)): ?>
-                            <?php foreach ($pagamentos as $pagamento): ?>
-                                <tr>
-                                    <td><?= htmlspecialchars($pagamento['id']) ?></td>
-                                    <td><?= htmlspecialchars($pagamento['aluno_nome']) ?></td>
-                                    <td><?= date('d/m/Y', strtotime($pagamento['data_vencimento'])) ?></td>
-                                    <td><?= number_format($pagamento['valor'], 2, ',', '.') ?></td>
-                                    <td class="status-<?= strtolower($pagamento['status_pagamento']) ?>">
-                                        <?= htmlspecialchars($pagamento['status_pagamento']) ?>
-                                    </td>
-                                    <td><?= date('d/m/Y H:i', strtotime($pagamento['criado_em'])) ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="6" class="text-center">Nenhum pagamento encontrado.</td>
-                            </tr>
-                        <?php endif; ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
     </main>
+    <footer>
+        <small>Power House Academia &copy; <?= date('Y'); ?></small>
+    </footer>
 </body>
-<footer>
-    <small>Power House Academia &copy; <?= date('Y'); ?></small>
-</footer>
 
 </html>

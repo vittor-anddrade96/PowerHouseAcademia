@@ -2,8 +2,6 @@
 session_start();
 
 require 'conexao.php';
-
-
 ?>
 
 <!DOCTYPE html>
@@ -119,7 +117,6 @@ require 'conexao.php';
             </div>
         </nav>
         <br>
- 
     </header>
 
     <main>

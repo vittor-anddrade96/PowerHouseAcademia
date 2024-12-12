@@ -48,6 +48,7 @@ try {
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
+      align-items: flex-start;
     }
 
     .plano-card {
@@ -57,6 +58,9 @@ try {
       width: 300px;
       padding: 20px;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .plano-card h4 {
@@ -91,6 +95,9 @@ try {
       padding: 10px 20px;
       border-radius: 5px;
       text-decoration: none;
+      display: inline-block;
+      text-align: center;
+      width: 100%;
     }
 
     .plano-card .btn:hover {
