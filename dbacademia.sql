@@ -19,7 +19,7 @@ CREATE TABLE Alunos (
     contato VARCHAR(15),
     plano_id INT,
     data_inicio DATE,
-    status ENUM('Ativo', 'Inativo') DEFAULT 'Ativo',
+    situacao ENUM('Ativo', 'Inativo') DEFAULT 'Ativo',
     criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (plano_id) REFERENCES Planos(id)
 );
@@ -83,6 +83,7 @@ CREATE TABLE Agendamentos (
     FOREIGN KEY (aluno_id) REFERENCES Alunos(id),
     FOREIGN KEY (aula_id) REFERENCES Aulas(id)
 );
+alter table Agendamentos change status situacao ENUM('Confirmado', 'Cancelado', 'Pendente') DEFAULT 'Pendente';
 
 CREATE TABLE Usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -96,8 +97,12 @@ insert into usuarios(nome_usuario, senha, perfil)
 values('admTeste', 'teste123', 'Administrador');
 
 INSERT INTO planos(nome_plano, valor_mensal, duracao, beneficios)
-values('Plano Bronze', 80.00, 'Mensal', 'Treino livre em qualquer horário de funcionamento da academia. Sem fidelidade.'),
-('Plano Prata', 450.00, 'Semestral', 'Treino livre em qualquer horário de funcionamento da academia. Pode escolher até duas academias da rede para treino além da matriculada. Sem fidelidade.'),
-('Plano Ouro', 880.00, 'Anual', 'Treino livre em qualquer horário de funcionamento da academia. Pode treinar em qualquer academia da rede. Sem fidelidade.');
+values('Recorrente House Blue', 100.00, 'Mensal', 'Acesso a todas as aulas coletivas, Sem multas ou taxas de cancelamento, Acesso total a estrutura da academia, Sem restrição de horários.'),
+('Recorrente House Gold', 129.90, 'Mensal', 'Acesso a todas as aulas coletivas, Acesso total a estrutura da academia, Sem restrição de horários, Treino em todas as unidades Bluefit, Fidelidade de 12 meses.'),
+('Recorrente House Premium', 159.90, 'Mensal', 'Acesso a todas as aulas coletivas, Sem multas ou taxas de cancelamento, Acesso total a estrutura da academia, Sem restrição de horários, Treino em todas as unidades Bluefit, Taxa zero');
 
-ALTER TABLE alunos CHANGE status  situacao ENUM('Ativo', 'Inativo') DEFAULT 'Ativo';
+INSERT INTO aulas(nome_aula, horario, instrutor_id, lotacao_maxima)
+VALUES('Cross Fit', '06:00:00', 2, 30),
+('Boxe', '07:30:00', 3, 10),
+('RPM', '09:00:00', 4, 30);
+
